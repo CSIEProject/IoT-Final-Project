@@ -1,7 +1,7 @@
 # IoT-Final-Project
 Driver Health Monitoring Framework Model using oneM2M Standard
 
-![image](https://github.com/CSIEProject/IoT-Final-Project/assets/155866585/7459bf09-ea5d-4b02-8be0-d8daca7b49ee)
+![image](https://github.com/CSIEProject/IoT-Final-Project/assets/155866585/28f548db-3375-48fd-83a1-caef886f2011)
 
 System introduction:
 
