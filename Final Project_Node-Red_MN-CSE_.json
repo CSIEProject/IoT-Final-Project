@@ -1,0 +1,186 @@
+[
+    {
+        "id": "aa2f55e10badce87",
+        "type": "tab",
+        "label": "MN-CSE",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "71fc278605dac513",
+        "type": "http in",
+        "z": "aa2f55e10badce87",
+        "name": "",
+        "url": "/sensorData",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 230,
+        "y": 220,
+        "wires": [
+            [
+                "a1ad53855116f6db"
+            ]
+        ]
+    },
+    {
+        "id": "a1ad53855116f6db",
+        "type": "function",
+        "z": "aa2f55e10badce87",
+        "name": "set payload and headers",
+        "func": "/*jshint multistr: true */\nvar data = '<m2m:cin xmlns:m2m=\"http://www.onem2m.org/xml/protocols\">\\\n\t<cnf>message</cnf>\\\n\t<con>\\\n\t  &lt;obj&gt;\\\n\t\t&lt;str name=&quot;HeartRate&quot; val=&quot;'+ msg.payload.HeartRate + '&quot;/&gt;\\\n\t\t&lt;str name=&quot;BloodOxygenLevel&quot; val=&quot;'+ msg.payload.BloodOxygenLevel + '&quot;/&gt;\\\n\t  &lt;/obj&gt;\\\n\t</con>\\\n</m2m:cin>';\n\nmsg.payload = data;\nmsg.headers = {};\nmsg.headers['X-M2M-Origin'] = 'admin:admin';\nmsg.headers['Content-Type'] = 'application/xml;ty=4';\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 470,
+        "y": 220,
+        "wires": [
+            [
+                "909c360167753870"
+            ]
+        ]
+    },
+    {
+        "id": "909c360167753870",
+        "type": "http request",
+        "z": "aa2f55e10badce87",
+        "name": "post to mn-cse",
+        "method": "POST",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "http://127.0.0.1:8282/~/mn-cse/mn-name/DRIVER_BIO_DATA/DATA",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 700,
+        "y": 220,
+        "wires": [
+            [
+                "15dde0c536baf0a0",
+                "aadf629af3a5a4d2"
+            ]
+        ]
+    },
+    {
+        "id": "15dde0c536baf0a0",
+        "type": "debug",
+        "z": "aa2f55e10badce87",
+        "name": "debug 7",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 900,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "aadf629af3a5a4d2",
+        "type": "http response",
+        "z": "aa2f55e10badce87",
+        "name": "http response",
+        "statusCode": "",
+        "headers": {},
+        "x": 920,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "4ba64a066c48e404",
+        "type": "http in",
+        "z": "aa2f55e10badce87",
+        "name": "",
+        "url": "/institutionData",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 220,
+        "y": 380,
+        "wires": [
+            [
+                "f524efa699d33fae"
+            ]
+        ]
+    },
+    {
+        "id": "f524efa699d33fae",
+        "type": "function",
+        "z": "aa2f55e10badce87",
+        "name": "set payload and headers",
+        "func": "/*jshint multistr: true */\nvar data = '<m2m:cin xmlns:m2m=\"http://www.onem2m.org/xml/protocols\">\\\n\t<cnf>message</cnf>\\\n\t<con>\\\n\t  &lt;obj&gt;\\\n\t\t&lt;str name=&quot;Alarm&quot; val=&quot;'+ msg.payload.Alarm + '&quot;/&gt;\\\n\t\t&lt;str name=&quot;VehicleSpeed&quot; val=&quot;'+ msg.payload.VehicleSpeed + '&quot;/&gt;\\\n\t  &lt;/obj&gt;\\\n\t</con>\\\n</m2m:cin>';\n\nmsg.payload = data;\nmsg.headers = {};\nmsg.headers['X-M2M-Origin'] = 'admin:admin';\nmsg.headers['Content-Type'] = 'application/xml;ty=4';\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 470,
+        "y": 380,
+        "wires": [
+            [
+                "135604441ac48521"
+            ]
+        ]
+    },
+    {
+        "id": "135604441ac48521",
+        "type": "http request",
+        "z": "aa2f55e10badce87",
+        "name": "post to mn-cse",
+        "method": "POST",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "http://127.0.0.1:8282/~/mn-cse/mn-name/INSTITUTION_CONTROL_DATA/DATA",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 700,
+        "y": 380,
+        "wires": [
+            [
+                "8ea6ffdd40222df2",
+                "d964ae4a97a159b3"
+            ]
+        ]
+    },
+    {
+        "id": "8ea6ffdd40222df2",
+        "type": "debug",
+        "z": "aa2f55e10badce87",
+        "name": "debug 26",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 900,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "d964ae4a97a159b3",
+        "type": "http response",
+        "z": "aa2f55e10badce87",
+        "name": "http response",
+        "statusCode": "",
+        "headers": {},
+        "x": 920,
+        "y": 420,
+        "wires": []
+    }
+]

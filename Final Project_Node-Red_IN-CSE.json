@@ -1,0 +1,552 @@
+[
+    {
+        "id": "fd3d0e95a77f4990",
+        "type": "tab",
+        "label": "IN-CSE",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "d48328fbb9a591ba",
+        "type": "http in",
+        "z": "fd3d0e95a77f4990",
+        "name": "",
+        "url": "/driverData",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 200,
+        "y": 400,
+        "wires": [
+            [
+                "24521102e6c69fe2"
+            ]
+        ]
+    },
+    {
+        "id": "da1c0f920a7d23d5",
+        "type": "http request",
+        "z": "fd3d0e95a77f4990",
+        "name": "get from in-cse",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "http://127.0.0.1:8080/~/in-cse/in-name/DRIVER_BIO_DATA/DATA/la",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 540,
+        "y": 400,
+        "wires": [
+            [
+                "9b52a4f32c9f3d5d"
+            ]
+        ]
+    },
+    {
+        "id": "9b52a4f32c9f3d5d",
+        "type": "xml",
+        "z": "fd3d0e95a77f4990",
+        "name": "",
+        "property": "payload",
+        "attr": "",
+        "chr": "",
+        "x": 690,
+        "y": 400,
+        "wires": [
+            [
+                "bd1c37679f8179e5"
+            ]
+        ]
+    },
+    {
+        "id": "95e3364cef71c8c6",
+        "type": "xml",
+        "z": "fd3d0e95a77f4990",
+        "name": "",
+        "property": "payload",
+        "attr": "",
+        "chr": "",
+        "x": 970,
+        "y": 400,
+        "wires": [
+            [
+                "800e302bab0a7374"
+            ]
+        ]
+    },
+    {
+        "id": "bd1c37679f8179e5",
+        "type": "function",
+        "z": "fd3d0e95a77f4990",
+        "name": "get payload",
+        "func": "msg.payload = msg.payload[\"m2m:cin\"].con[0]\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 830,
+        "y": 400,
+        "wires": [
+            [
+                "95e3364cef71c8c6"
+            ]
+        ]
+    },
+    {
+        "id": "800e302bab0a7374",
+        "type": "function",
+        "z": "fd3d0e95a77f4990",
+        "name": "set payload form",
+        "func": "msg.payload = \"{HeartRate:\" + msg.payload.obj.str[0].$.val + \",BloodOxygenLevel:\" + msg.payload.obj.str[1].$.val+\"}\";\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1120,
+        "y": 400,
+        "wires": [
+            [
+                "dad425730d827ea1",
+                "25c73bb14440d67f"
+            ]
+        ]
+    },
+    {
+        "id": "25c73bb14440d67f",
+        "type": "http response",
+        "z": "fd3d0e95a77f4990",
+        "name": "http response",
+        "statusCode": "",
+        "headers": {},
+        "x": 1320,
+        "y": 440,
+        "wires": []
+    },
+    {
+        "id": "dad425730d827ea1",
+        "type": "debug",
+        "z": "fd3d0e95a77f4990",
+        "name": "debug 11",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1300,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "24521102e6c69fe2",
+        "type": "function",
+        "z": "fd3d0e95a77f4990",
+        "name": "set headers",
+        "func": "msg.headers = {};\nmsg.headers['X-M2M-Origin'] = 'admin:admin';\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 370,
+        "y": 400,
+        "wires": [
+            [
+                "da1c0f920a7d23d5"
+            ]
+        ]
+    },
+    {
+        "id": "213a7d025d0ed982",
+        "type": "http in",
+        "z": "fd3d0e95a77f4990",
+        "name": "",
+        "url": "/DRIVER_BIO_DATA",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 210,
+        "y": 180,
+        "wires": [
+            [
+                "67d00c036e39d121",
+                "c2451b63cf0baf8b"
+            ]
+        ]
+    },
+    {
+        "id": "67d00c036e39d121",
+        "type": "xml",
+        "z": "fd3d0e95a77f4990",
+        "name": "",
+        "property": "payload",
+        "attr": "",
+        "chr": "",
+        "x": 410,
+        "y": 180,
+        "wires": [
+            [
+                "24f338b00e1f6a8a"
+            ]
+        ]
+    },
+    {
+        "id": "24f338b00e1f6a8a",
+        "type": "function",
+        "z": "fd3d0e95a77f4990",
+        "name": "get state",
+        "func": "var data = msg.payload[\"m2m:sgn\"].nev[0].rep[0][\"m2m:cin\"][0].con[0];\nmsg.payload = data\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 560,
+        "y": 180,
+        "wires": [
+            [
+                "1afacbee5fa12dd2"
+            ]
+        ]
+    },
+    {
+        "id": "1afacbee5fa12dd2",
+        "type": "xml",
+        "z": "fd3d0e95a77f4990",
+        "name": "",
+        "property": "payload",
+        "attr": "",
+        "chr": "",
+        "x": 710,
+        "y": 180,
+        "wires": [
+            [
+                "74bdde51a51de0cc"
+            ]
+        ]
+    },
+    {
+        "id": "74bdde51a51de0cc",
+        "type": "function",
+        "z": "fd3d0e95a77f4990",
+        "name": "set object",
+        "func": "var New = { HeartRate: null, BloodOxygenLevel: null };\nNew.HeartRate = msg.payload.obj.str[0].$.val\nNew.BloodOxygenLevel = msg.payload.obj.str[1].$.val\nmsg.payload = New\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 860,
+        "y": 180,
+        "wires": [
+            [
+                "13ac64b26f4c7261"
+            ]
+        ]
+    },
+    {
+        "id": "13ac64b26f4c7261",
+        "type": "function",
+        "z": "fd3d0e95a77f4990",
+        "name": "set payload and headers",
+        "func": "/*jshint multistr: true */\nvar data = '<m2m:cin xmlns:m2m=\"http://www.onem2m.org/xml/protocols\">\\\n\t<cnf>message</cnf>\\\n\t<con>\\\n\t  &lt;obj&gt;\\\n\t\t&lt;str name=&quot;HeartRate&quot; val=&quot;'+ msg.payload.HeartRate + '&quot;/&gt;\\\n\t\t&lt;str name=&quot;BloodOxygenLevel&quot; val=&quot;'+ msg.payload.BloodOxygenLevel + '&quot;/&gt;\\\n\t  &lt;/obj&gt;\\\n\t</con>\\\n</m2m:cin>';\n\nmsg.payload = data;\nmsg.headers = {};\nmsg.headers['X-M2M-Origin'] = 'admin:admin';\nmsg.headers['Content-Type'] = 'application/xml;ty=4';\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1070,
+        "y": 180,
+        "wires": [
+            [
+                "8e4fe1c01aa99493",
+                "c834ef0d7a76ff24"
+            ]
+        ]
+    },
+    {
+        "id": "c2451b63cf0baf8b",
+        "type": "debug",
+        "z": "fd3d0e95a77f4990",
+        "name": "debug 12",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 420,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "c834ef0d7a76ff24",
+        "type": "http request",
+        "z": "fd3d0e95a77f4990",
+        "name": "post to in-cse",
+        "method": "POST",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "http://127.0.0.1:8080/~/in-cse/in-name/DRIVER_BIO_DATA/DATA",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 870,
+        "y": 280,
+        "wires": [
+            [
+                "6dc2d9fed17fd049",
+                "1e7ce2747b7a0633"
+            ]
+        ]
+    },
+    {
+        "id": "8e4fe1c01aa99493",
+        "type": "debug",
+        "z": "fd3d0e95a77f4990",
+        "name": "debug 13",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1300,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "6dc2d9fed17fd049",
+        "type": "http response",
+        "z": "fd3d0e95a77f4990",
+        "name": "http response",
+        "statusCode": "",
+        "headers": {},
+        "x": 1060,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "1e7ce2747b7a0633",
+        "type": "debug",
+        "z": "fd3d0e95a77f4990",
+        "name": "debug 14",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1040,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "d7df266976c04393",
+        "type": "http in",
+        "z": "fd3d0e95a77f4990",
+        "name": "",
+        "url": "/INSTITUTION_CONTROL_DATA",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 190,
+        "y": 540,
+        "wires": [
+            [
+                "c76c7cb18dc8e395",
+                "1736037a512c070b"
+            ]
+        ]
+    },
+    {
+        "id": "c76c7cb18dc8e395",
+        "type": "xml",
+        "z": "fd3d0e95a77f4990",
+        "name": "",
+        "property": "payload",
+        "attr": "",
+        "chr": "",
+        "x": 430,
+        "y": 540,
+        "wires": [
+            [
+                "4413e8338f524234"
+            ]
+        ]
+    },
+    {
+        "id": "4413e8338f524234",
+        "type": "function",
+        "z": "fd3d0e95a77f4990",
+        "name": "get state",
+        "func": "var data = msg.payload[\"m2m:sgn\"].nev[0].rep[0][\"m2m:cin\"][0].con[0];\nmsg.payload = data\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 560,
+        "y": 540,
+        "wires": [
+            [
+                "5768fdde23a526c6"
+            ]
+        ]
+    },
+    {
+        "id": "5768fdde23a526c6",
+        "type": "xml",
+        "z": "fd3d0e95a77f4990",
+        "name": "",
+        "property": "payload",
+        "attr": "",
+        "chr": "",
+        "x": 710,
+        "y": 540,
+        "wires": [
+            [
+                "f1fb519827ad318c"
+            ]
+        ]
+    },
+    {
+        "id": "f1fb519827ad318c",
+        "type": "function",
+        "z": "fd3d0e95a77f4990",
+        "name": "set object",
+        "func": "var New = { Alarm: null, VehicleSpeed: null };\nNew.Alarm = msg.payload.obj.str[0].$.val\nNew.VehicleSpeed = msg.payload.obj.str[1].$.val\nmsg.payload = New\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 860,
+        "y": 540,
+        "wires": [
+            [
+                "a8731f909ad0dbf6"
+            ]
+        ]
+    },
+    {
+        "id": "a8731f909ad0dbf6",
+        "type": "function",
+        "z": "fd3d0e95a77f4990",
+        "name": "set payload and headers",
+        "func": "/*jshint multistr: true */\nvar data = '<m2m:cin xmlns:m2m=\"http://www.onem2m.org/xml/protocols\">\\\n\t<cnf>message</cnf>\\\n\t<con>\\\n\t  &lt;obj&gt;\\\n\t\t&lt;str name=&quot;Alarm&quot; val=&quot;'+ msg.payload.Alarm + '&quot;/&gt;\\\n\t\t&lt;str name=&quot;VehicleSpeed&quot; val=&quot;'+ msg.payload.VehicleSpeed + '&quot;/&gt;\\\n\t  &lt;/obj&gt;\\\n\t</con>\\\n</m2m:cin>';\n\nmsg.payload = data;\nmsg.headers = {};\nmsg.headers['X-M2M-Origin'] = 'admin:admin';\nmsg.headers['Content-Type'] = 'application/xml;ty=4';\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1070,
+        "y": 540,
+        "wires": [
+            [
+                "4e8cf592463a59b6",
+                "5142299fac9bfb2c"
+            ]
+        ]
+    },
+    {
+        "id": "1736037a512c070b",
+        "type": "debug",
+        "z": "fd3d0e95a77f4990",
+        "name": "debug 27",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 420,
+        "y": 620,
+        "wires": []
+    },
+    {
+        "id": "5142299fac9bfb2c",
+        "type": "http request",
+        "z": "fd3d0e95a77f4990",
+        "name": "post to in-cse",
+        "method": "POST",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "http://127.0.0.1:8080/~/in-cse/in-name/INSTITUTION_CONTROL_DATA/DATA",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 870,
+        "y": 640,
+        "wires": [
+            [
+                "a71a19a8872fcdeb",
+                "e062543ee2a6cdae"
+            ]
+        ]
+    },
+    {
+        "id": "4e8cf592463a59b6",
+        "type": "debug",
+        "z": "fd3d0e95a77f4990",
+        "name": "debug 28",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1300,
+        "y": 540,
+        "wires": []
+    },
+    {
+        "id": "a71a19a8872fcdeb",
+        "type": "http response",
+        "z": "fd3d0e95a77f4990",
+        "name": "http response",
+        "statusCode": "",
+        "headers": {},
+        "x": 1060,
+        "y": 640,
+        "wires": []
+    },
+    {
+        "id": "e062543ee2a6cdae",
+        "type": "debug",
+        "z": "fd3d0e95a77f4990",
+        "name": "debug 29",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1040,
+        "y": 680,
+        "wires": []
+    }
+]
